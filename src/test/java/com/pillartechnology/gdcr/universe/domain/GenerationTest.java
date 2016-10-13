@@ -1,12 +1,14 @@
 package com.pillartechnology.gdcr.universe.domain;
 
-import com.pillartechnology.gdcr.universe.UniverseApplication;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.pillartechnology.gdcr.universe.domain.Generation.E_CellState.ALIVE;
 import static com.pillartechnology.gdcr.universe.domain.Generation.E_CellState.DEAD;
@@ -14,15 +16,34 @@ import static com.pillartechnology.gdcr.universe.domain.Generation.E_CellState.U
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
 public class GenerationTest {
 
-    @InjectMocks
-    private Generation generationUt = new Generation(2, 2);
+    private RedisTemplate templateMock = mock(RedisTemplate.class);
+    private Generation generationUt;
+    private Generation generationByIdUt;
 
-    @Mock
-    private RedisTemplate template = mock(RedisTemplate.class);
+    private HashOperations hashOperationsMock = mock(HashOperations.class);
+    private Map<String, String> fakeWorld = new HashMap<>();
+
+    @Before
+    public void setUp() {
+        when(templateMock.opsForHash()).thenReturn(hashOperationsMock);
+
+        generationUt = new Generation(2, 2, templateMock);
+
+        String generationUtKey = String.format("generation:%s", generationUt.getGenerationId());
+
+        fakeWorld.put("A0", UNKNOWN.toString());
+        fakeWorld.put("A1", UNKNOWN.toString());
+        fakeWorld.put("B0", ALIVE.toString());
+        fakeWorld.put("B1", DEAD.toString());
+
+        when(hashOperationsMock.entries(generationUtKey)).thenReturn(fakeWorld);
+
+        generationByIdUt = new Generation(generationUt.getGenerationId(), templateMock);
+    }
 
     @Test
     public void generationCreatesAWorldWithCoordinates() {
@@ -42,8 +63,6 @@ public class GenerationTest {
 
     @Test
     public void canGetExistingGenerationById() {
-        generationUt.save();
-
-        Generation generationById = new Generation(generationUt.getGenerationId());
+        assertThat(generationByIdUt.getWorld().size(), is(fakeWorld.size()));
     }
 }

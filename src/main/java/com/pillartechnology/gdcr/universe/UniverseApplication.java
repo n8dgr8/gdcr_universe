@@ -21,18 +21,11 @@ public class UniverseApplication {
     private RedisTemplate<String, String> template;
 
 	public static void main(String[] args) {
-		SpringApplication.run(UniverseApplication.class, args);
+        SpringApplication.run(UniverseApplication.class, args);
 	}
 
-    public Map<String, Universe> getKnownUniverses() {
+    public List<String> getKnownUniverseIds() {
         List<String> knownUniverseGuids = template.opsForList().range("universes", 0, -1);
-
-        Map<String, Universe> knownUniverses = new HashMap<>();
-
-        knownUniverseGuids.forEach(universeGuid -> {
-            knownUniverses.put(universeGuid, new Universe(universeGuid));
-        });
-
-        return knownUniverses;
+        return knownUniverseGuids;
     }
 }

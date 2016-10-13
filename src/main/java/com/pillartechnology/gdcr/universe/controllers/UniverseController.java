@@ -31,15 +31,12 @@ public class UniverseController {
     public ResponseEntity<String> getUniverseById(@PathVariable String universeId) {
         ResponseEntity<String> theResponse = new ResponseEntity<>(NOT_FOUND);
 
-        Universe newUniverse = new Universe();
-        universeApplication.getKnownUniverses().put(newUniverse.getUniverseId(), newUniverse);
+        Universe newUniverse = new Universe(redisTemplate);
+        universeApplication.getKnownUniverseIds().add(newUniverse.getUniverseId());
 
-        if (universeApplication.getKnownUniverses().containsKey(universeId)) {
-            Universe theUniverse = universeApplication.getKnownUniverses().get(universeId);
-            theResponse = new ResponseEntity<>(String.format("UNIVERSE %s", theUniverse.getUniverseId()), OK);
+        if (universeApplication.getKnownUniverseIds().contains(universeId)) {
+            theResponse = new ResponseEntity<>(String.format("UNIVERSE %s", universeId), OK);
         }
-
-        System.err.println("Does it or doesn't it? " + redisTemplate.hasKey(universeId));
 
         return theResponse;
     }

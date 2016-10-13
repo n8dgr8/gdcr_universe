@@ -36,8 +36,8 @@ public class UniverseApplicationTests {
 
     @Before
     public void setUp() {
-        Universe universeOne = new Universe();
-        Universe universeTwo = new Universe();
+        Universe universeOne = new Universe(template);
+        Universe universeTwo = new Universe(template);
 
         universeGuidList.add(universeOne.getUniverseId());
         universeGuidList.add(universeTwo.getUniverseId());
@@ -52,7 +52,7 @@ public class UniverseApplicationTests {
 
 	@Test
 	public void getUniversesReturnsAMapOfUniverses() {
-		Map<String, Universe> actualKnownUniverses = universeApplicationUt.getKnownUniverses();
+		List<String> actualKnownUniverses = universeApplicationUt.getKnownUniverseIds();
         assertThat(actualKnownUniverses.size(), is(universeGuidList.size()));
 	}
 
