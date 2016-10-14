@@ -9,12 +9,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
+
 
 @RestController
 @RequestMapping("/universe")
@@ -41,12 +45,25 @@ public class UniverseController {
         });
 
         obj.addProperty("count", String.valueOf(universes.size()));
-
         obj.add("universes", universes);
 
-        ResponseEntity<String> theResponse = new ResponseEntity<>(new Gson().toJson(obj), OK);
+        return new ResponseEntity<>(new Gson().toJson(obj), OK);
+    }
 
-        return theResponse;
+    @RequestMapping(method = POST)
+    public ResponseEntity<String> createUniverse(@RequestBody String postContents) {
+        Gson gson = new Gson();
+
+        JsonObject postContentsObject = gson.fromJson(postContents, JsonObject.class);
+
+        Integer width = postContentsObject.get("width").getAsInt();
+        Integer height = postContentsObject.get("height").getAsInt();
+
+        Universe universe = new Universe(redisTemplate);
+        universe.setUniverseHeight(height);
+        universe.setUniverseWidth(width);
+
+        return new ResponseEntity<>(universe.getUniverseId(), CREATED);
     }
 
     @RequestMapping(value = "/{universeId}", method = GET)

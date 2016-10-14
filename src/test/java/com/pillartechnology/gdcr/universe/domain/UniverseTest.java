@@ -70,5 +70,4 @@ public class UniverseTest {
         assertThat(universeById.getUniverseHeight(), is(NON_DEFAULT_HEIGHT));
         assertThat(universeById.getUniverseWidth(), is(NON_DEFAULT_WIDTH));
     }
-
 }
