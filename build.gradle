@@ -29,6 +29,8 @@ dependencies {
 		exclude module: 'spring-boot-starter-tomcat'
 	}
 
+	compile 'com.google.code.gson:gson'
+
 	compile group: 'org.springframework.boot', name: 'spring-boot-starter-jetty'
 	compile('org.springframework.boot:spring-boot-starter-data-redis')
 	compile('org.springframework.boot:spring-boot-starter-websocket')

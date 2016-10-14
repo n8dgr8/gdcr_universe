@@ -1,5 +1,9 @@
 package com.pillartechnology.gdcr.universe.controllers;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.pillartechnology.gdcr.universe.UniverseApplication;
 import com.pillartechnology.gdcr.universe.domain.Universe;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +29,25 @@ public class UniverseController {
     @Autowired
     public UniverseController(UniverseApplication newUniverse) {
         universeApplication = newUniverse;
+    }
+
+    @RequestMapping(method = GET)
+    public ResponseEntity<String> getUniverses() {
+        JsonObject obj = new JsonObject();
+
+        JsonArray universes = new JsonArray();
+
+        universeApplication.getKnownUniverseIds().forEach(universeId -> {
+            universes.add(universeId);
+        });
+
+        obj.addProperty("count", String.valueOf(universes.size()));
+
+        obj.add("universes", universes);
+
+        ResponseEntity<String> theResponse = new ResponseEntity<>(new Gson().toJson(obj), OK);
+
+        return theResponse;
     }
 
     @RequestMapping(value = "/{universeId}", method = GET)
