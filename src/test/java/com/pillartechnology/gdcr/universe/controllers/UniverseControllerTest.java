@@ -3,7 +3,8 @@ package com.pillartechnology.gdcr.universe.controllers;
 import com.pillartechnology.gdcr.universe.UniverseApplication;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.http.ResponseEntity;
+import org.mockito.ArgumentCaptor;
+import org.springframework.ui.Model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,8 +12,8 @@ import java.util.List;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.springframework.http.HttpStatus.OK;
 
 public class UniverseControllerTest {
 
@@ -29,15 +30,22 @@ public class UniverseControllerTest {
     }
 
     @Test
-    public void universeControllerReturnsAListOfKnownUniverseIds() {
+    public void universeControllerSetsModelWithKnownUniverses() {
         when(universeApplicationMock.getKnownUniverseIds()).thenReturn(fakeUniverseIds);
 
-        ResponseEntity<String> response = universeControllerUt.getUniverses();
+        Model modelMock = mock(Model.class);
 
-        assertThat(response.getStatusCode(), is(OK));
+        String response = universeControllerUt.getUniverses(modelMock);
 
-        assertThat(response.getBody().contains("abc123"), is(true));
-        assertThat(response.getBody().contains("def456"), is(true));
-        assertThat(response.getBody().contains("universes"), is(true));
+        assertThat(response, is("universes"));
+
+        ArgumentCaptor<String> keyCaptor = ArgumentCaptor.forClass(String.class);
+        ArgumentCaptor<Object> modelCaptor = ArgumentCaptor.forClass(Object.class);
+
+        verify(modelMock).addAttribute(keyCaptor.capture(), modelCaptor.capture());
+
+        assertThat(keyCaptor.getValue(), is("universes"));
+        assertThat(((ArrayList) modelCaptor.getValue()).contains("abc123"), is(true));
+        assertThat(((ArrayList) modelCaptor.getValue()).contains("def456"), is(true));
     }
 }
