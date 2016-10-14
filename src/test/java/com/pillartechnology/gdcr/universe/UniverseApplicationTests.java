@@ -13,23 +13,21 @@ import org.springframework.data.redis.core.RedisTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 @SpringBootTest
 public class UniverseApplicationTests {
 
-	@InjectMocks
-	private UniverseApplication universeApplicationUt = new UniverseApplication();
+    @InjectMocks
+    private UniverseApplication universeApplicationUt = new UniverseApplication();
 
-	@Mock
-	private RedisTemplate template = mock(RedisTemplate.class);
+    @Mock
+    private RedisTemplate template = mock(RedisTemplate.class);
 
     private ListOperations listOperationsMock = mock(ListOperations.class);
     private List<String> universeGuidList = new ArrayList<>();
@@ -46,14 +44,14 @@ public class UniverseApplicationTests {
         when(template.opsForList()).thenReturn(listOperationsMock);
     }
 
-	@Test
-	public void contextLoads() {
-	}
+    @Test
+    public void contextLoads() {
+    }
 
-	@Test
-	public void getUniversesReturnsAMapOfUniverses() {
-		List<String> actualKnownUniverses = universeApplicationUt.getKnownUniverseIds();
+    @Test
+    public void getUniversesReturnsAMapOfUniverses() {
+        List<String> actualKnownUniverses = universeApplicationUt.getKnownUniverseIds();
         assertThat(actualKnownUniverses.size(), is(universeGuidList.size()));
-	}
+    }
 
 }

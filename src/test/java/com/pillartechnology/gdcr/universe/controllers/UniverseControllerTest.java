@@ -3,7 +3,6 @@ package com.pillartechnology.gdcr.universe.controllers;
 import com.pillartechnology.gdcr.universe.UniverseApplication;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;

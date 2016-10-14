@@ -1,7 +1,6 @@
 package com.pillartechnology.gdcr.universe.controllers;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.pillartechnology.gdcr.universe.UniverseApplication;
