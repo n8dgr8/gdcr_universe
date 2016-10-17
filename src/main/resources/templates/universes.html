@@ -1,0 +1,18 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>GDCR Known Universes</title>
+</head>
+
+<body>
+
+    <h1>Known Universes</h1>
+
+    <ul>
+        <li th:each="universe_id : ${universes}">
+            <a href="something" th:href="${'./universe/' + universe_id}" th:text="${universe_id}">universe_text</a>
+        </li>
+    </ul>
+
+</body>
+</html>
