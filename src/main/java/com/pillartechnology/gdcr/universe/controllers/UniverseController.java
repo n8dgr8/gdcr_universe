@@ -9,6 +9,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -50,5 +51,20 @@ public class UniverseController {
         universe.setUniverseWidth(width);
 
         return new ResponseEntity<>(universe.getUniverseId(), CREATED);
+    }
+
+    @RequestMapping("/{universeId}")
+    public String getUniverse(Model universeModel, @PathVariable String universeId) {
+
+        String key = String.format("universe:" + universeId);
+
+        String universeHeight = redisTemplate.opsForHash().get(key, "height").toString();
+        String universeWidth = redisTemplate.opsForHash().get(key, "width").toString();
+
+        universeModel.addAttribute("universe_id", universeId);
+        universeModel.addAttribute("height", universeHeight);
+        universeModel.addAttribute("width", universeWidth);
+
+        return "universe";
     }
 }
