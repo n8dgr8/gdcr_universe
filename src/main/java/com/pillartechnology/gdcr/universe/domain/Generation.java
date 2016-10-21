@@ -12,6 +12,7 @@ import static com.pillartechnology.gdcr.universe.domain.Generation.E_CellState.U
 public class Generation {
 
     public static final char[] ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
+
     public enum E_CellState {
         ALIVE,
         DEAD,
@@ -42,8 +43,14 @@ public class Generation {
                 String key = getLetterForRowInt(rowInt);
                 key = key + String.valueOf(colInt);
                 world.put(key, UNKNOWN);
+                redisTemplate.opsForHash().put(String.format("generation:%s", generationId), key, UNKNOWN.toString());
             });
         });
+    }
+
+    public void setCellState(String cellId, E_CellState cellState) {
+        redisTemplate.opsForHash().put(String.format("generation:%s", generationId), cellId, cellState.toString());
+        world.put(cellId, cellState);
     }
 
     public Map<String, E_CellState> getWorld() {

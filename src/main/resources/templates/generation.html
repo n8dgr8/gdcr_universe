@@ -1,0 +1,20 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${'GDCR Generation ' + generationId}">GDCR Universe</title>
+</head>
+
+<body>
+
+
+<table>
+    <tr th:each="row_id : ${rows}">
+        <td th:each="col_id : ${columns}" th:id="row_id + col_id">
+            Bleh
+        </td>
+    </tr>
+</table>
+
+
+
+</body>

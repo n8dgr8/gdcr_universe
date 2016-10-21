@@ -53,7 +53,7 @@ public class UniverseController {
         return new ResponseEntity<>(universe.getUniverseId(), CREATED);
     }
 
-    @RequestMapping("/{universeId}")
+    @RequestMapping(value = "/{universeId}", method = GET)
     public String getUniverse(Model universeModel, @PathVariable String universeId) {
 
         String key = String.format("universe:" + universeId);
