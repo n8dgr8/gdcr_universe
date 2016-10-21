@@ -29,7 +29,7 @@ public class GenerationTest {
     public void setUp() {
         when(templateMock.opsForHash()).thenReturn(hashOperationsMock);
 
-        generationUt = new Generation(2, 2, templateMock);
+        generationUt = new Generation(2, 2, "some_universe_id", templateMock);
 
         String generationUtKey = String.format("generation:%s", generationUt.getGenerationId());
 

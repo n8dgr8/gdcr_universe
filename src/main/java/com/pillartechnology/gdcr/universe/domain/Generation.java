@@ -23,6 +23,7 @@ public class Generation {
 
     private Map<String, E_CellState> world = new HashMap<>();
     private String generationId;
+    private String universeId;
 
     public Generation(String id, RedisTemplate<String, String> newRedisTemplate) {
         redisTemplate = newRedisTemplate;
@@ -34,7 +35,7 @@ public class Generation {
         });
     }
 
-    public Generation(Integer width, Integer height, RedisTemplate<String, String> redisTemplate) {
+    public Generation(Integer width, Integer height, String newUniverseId, RedisTemplate<String, String> redisTemplate) {
         this.redisTemplate = redisTemplate;
         generationId = UUID.randomUUID().toString();
 
