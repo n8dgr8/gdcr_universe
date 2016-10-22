@@ -44,6 +44,7 @@ public class Universe {
     }
 
     public void setUniverseHeight(Integer newUniverseHeight) {
+        redisTemplate.opsForHash().put(String.format("universe:%s", universeId), "height", String.valueOf(newUniverseHeight));
         universeHeight = newUniverseHeight;
     }
 
@@ -52,6 +53,7 @@ public class Universe {
     }
 
     public void setUniverseWidth(Integer newUniverseWidth) {
+        redisTemplate.opsForHash().put(String.format("universe:%s", universeId), "width", String.valueOf(newUniverseWidth));
         universeWidth = newUniverseWidth;
     }
 

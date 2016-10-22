@@ -82,7 +82,6 @@ public class CellStateController {
 
         if (generationGuid == null) {
             theGeneration = new Generation(Integer.valueOf(universeWidth), Integer.valueOf(universeHeight), universeGuid, redisTemplate);
-            System.err.println("This is where we'd create a new one");
 
             redisTemplate.opsForHash().put(
                     String.format("universe:%s:generations", universeGuid),

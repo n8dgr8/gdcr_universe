@@ -1,20 +1,20 @@
 package com.pillartechnology.gdcr.universe.controllers;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
 import com.pillartechnology.gdcr.universe.domain.Generation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.IntStream;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
-@RestController
+@Controller
 public class GenerationController {
 
     @Autowired
@@ -22,10 +22,9 @@ public class GenerationController {
 
     @RequestMapping(
             value = "/universe/{universeId}/generation/{generationIndex}",
-            method = GET,
-            produces = "application/json"
+            method = GET
     )
-    public ResponseEntity<String> getGeneration(
+    public String getGeneration(
             Model generationModel,
             @PathVariable String universeId,
             @PathVariable String generationIndex) {
@@ -46,7 +45,6 @@ public class GenerationController {
 
         if (generationGuid == null) {
             theGeneration = new Generation(Integer.valueOf(universeWidth), Integer.valueOf(universeHeight), universeGuid, redisTemplate);
-            System.err.println("This is where we'd create a new one");
 
             redisTemplate.opsForHash().put(
                     String.format("universe:%s:generations", universeGuid),
@@ -57,13 +55,31 @@ public class GenerationController {
             theGeneration = new Generation(generationGuid.toString(), redisTemplate);
         }
 
-        JsonObject generationJsonObject = new JsonObject();
+        List<String> rows = new ArrayList<>();
+        List<String> columns = new ArrayList<>();
 
-        theGeneration.getWorld().forEach((cellId, cellState) -> {
-            generationJsonObject.add(cellId.toString(), new JsonPrimitive(cellState.toString()));
+        IntStream.range(0, Integer.valueOf(universeHeight)).forEach(row -> {
+            rows.add(Character.toString(Generation.ALPHABET[row]));
         });
 
-        return new ResponseEntity<>(generationJsonObject.toString(), HttpStatus.OK);
+
+        IntStream.range(0, Integer.valueOf(universeWidth)).forEach(column -> {
+            columns.add(String.valueOf(column));
+        });
+
+        generationModel.addAttribute("rows", rows);
+        generationModel.addAttribute("columns", columns);
+
+        Integer prevIndex = Integer.valueOf(generationIndex) - 1;
+        Integer nextIndex = Integer.valueOf(generationIndex) + 1;
+
+        generationModel.addAttribute("generation_id", generationIndex);
+        generationModel.addAttribute("prev_url", prevIndex);
+        generationModel.addAttribute("next_url", nextIndex);
+
+        generationModel.addAttribute("cells", theGeneration.getWorld());
+
+        return "generation";
     }
 
 }

@@ -39,8 +39,8 @@ public class Generation {
         this.redisTemplate = redisTemplate;
         generationId = UUID.randomUUID().toString();
 
-        IntStream.range(0, height).forEach(colInt -> {
-            IntStream.range(0, width).forEach(rowInt -> {
+        IntStream.range(0, width).forEach(colInt -> {
+            IntStream.range(0, height).forEach(rowInt -> {
                 String key = getLetterForRowInt(rowInt);
                 key = key + String.valueOf(colInt);
                 world.put(key, UNKNOWN);
