@@ -82,7 +82,9 @@ public class UniverseController {
     }
 
     @RequestMapping(value = "/{universeId}", method = GET)
-    public String getUniverse(Model universeModel, @PathVariable String universeId) {
+    public String getUniverse(Model universeModel, @PathVariable String inUniverseId) {
+
+        String universeId = inUniverseId;
 
         if (universeId.equals("@currentUniverse")) {
             universeId = redisTemplate.opsForValue().get("current_universe");
