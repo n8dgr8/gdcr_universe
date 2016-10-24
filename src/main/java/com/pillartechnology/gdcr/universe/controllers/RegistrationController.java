@@ -7,7 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import static org.springframework.http.HttpStatus.OK;
-import static org.springframework.web.bind.annotation.RequestMethod.POST;
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 @Controller
 @RequestMapping("/universe/@currentUniverse")
@@ -16,8 +16,12 @@ public class RegistrationController {
     @Autowired
     private RedisTemplate<String, String> redisTemplate;
 
-    @RequestMapping(value = "/register", method = POST)
+    @RequestMapping(value = "/register", method = GET)
     public ResponseEntity<String> registerCell() {
-        return new ResponseEntity<>("A0", OK);
+        String currentUniverseId = redisTemplate.opsForValue().get("current_universe");
+
+        String cellId = redisTemplate.opsForList().leftPop(String.format("universe:%s:registration", currentUniverseId));
+
+        return new ResponseEntity<>(cellId, OK);
     }
 }

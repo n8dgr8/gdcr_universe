@@ -67,6 +67,8 @@ public class UniverseController {
             } else {
                 firstGeneration.setCellState(cellId, DEAD);
             }
+
+            redisTemplate.opsForList().rightPush(String.format("universe:%s:registration", universe.getUniverseId()), cellId);
         });
 
         redisTemplate.opsForHash().put(
@@ -81,6 +83,10 @@ public class UniverseController {
 
     @RequestMapping(value = "/{universeId}", method = GET)
     public String getUniverse(Model universeModel, @PathVariable String universeId) {
+
+        if (universeId.equals("@currentUniverse")) {
+            universeId = redisTemplate.opsForValue().get("current_universe");
+        }
 
         String key = String.format("universe:" + universeId);
 

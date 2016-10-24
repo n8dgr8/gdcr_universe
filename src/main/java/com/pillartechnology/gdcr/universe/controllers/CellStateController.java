@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
@@ -27,8 +28,8 @@ public class CellStateController {
             produces = "application/json")
     public ResponseEntity<String> getCellState(@PathVariable String universeId,
                                                @PathVariable String generationIndex,
-                                               @PathVariable String cellId) {
-
+                                               @PathVariable String cellId
+    ) {
         Generation theGeneration = getGenerationByUniverseIdAndGenerationIndex(universeId, generationIndex);
 
         Generation.E_CellState cellState = Generation.E_CellState.UNKNOWN;
