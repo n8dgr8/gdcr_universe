@@ -1,5 +1,5 @@
 # gdcr_universe
-This program was used at the 2016 Des Moines [Global Day of Code Retreat](http://coderetreat.org/) event.
+This program was used at the 2016 & 2017 Des Moines [Global Day of Code Retreat](http://coderetreat.org/) event.
 
 
 Attendees implemented logic behind a single cell in the language of their choice and utilized the REST API methods of this server to
@@ -43,7 +43,24 @@ POST Body
 
 GET http://{your_ip}:8080/universe/@currentUniverse/register
 
+Response: Battleship-style coordinate
 
+### GETting Cell State From A Generation
+
+GET http://{your_ip}:8080/universe/@currentUniverse/generation/{generation_index}/cell/{coordinate}
+
+Response: 
+```
+{
+    "cellState": "DEAD"
+}
+```
+
+### POSTing Cell State For A Generation
+
+POST http://{{your_ip}}:8080/universe/@currentUniverse/generation/{generation_index}/cell/{coordinate}
+
+Body: "ALIVE" | "DEAD"
 
 TODO - Generate this from Swagger
 
