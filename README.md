@@ -30,6 +30,21 @@ http://{your_ip}:8080/universe/@currentUniverse/generation/0
 
 ## REST API
 
+### Creating A Universe
+
+POST http://{your_ip}:8080/universe/
+
+POST Body
+```
+{"width":"25","height":"25"}
+```
+
+### Registering With The Universe
+
+GET http://{your_ip}:8080/universe/@currentUniverse/register
+
+
+
 TODO - Generate this from Swagger
 
 ## Redis Keys And What They Do
