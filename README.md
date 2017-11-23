@@ -16,10 +16,28 @@ Attendees implemented logic behind a single cell in the language of their choice
 *Cell* - Can be dead, alive, or unknown in any generation.
 
 ## Pre-requisites
+* gradle
 * Redis
 * Java 1.8+
 
 ## How To Run
+### Be sure the redis-server is running.
+For ubuntu this means either configuring redis to run at start of the system or run from the command line. See the [Redis Quick Start](https://redis.io/topics/quickstart) for details. The quicker quick start run from the command line:
+
+```shell
+sudo apt-get install -y redis-*
+redis-server&
+```
+
+### Build the Universe jar
+```shell
+cd /path/to/cdcr_universe
+./gradlew jar
+```
+
+### Run the jar
+The path to the jar after the build command above will be: `/path/to/gdcr_universe/build/libs/`.
+
 ```
 # java -jar /path/to/jar/universe-1.0.0.jar
 ```
