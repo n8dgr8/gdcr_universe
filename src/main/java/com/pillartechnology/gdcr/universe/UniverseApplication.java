@@ -1,14 +1,17 @@
 package com.pillartechnology.gdcr.universe;
 
+import com.pillartechnology.gdcr.universe.configuration.LocalRedisConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Import;
 import org.springframework.data.redis.core.RedisTemplate;
 
 import java.util.List;
 
 @SpringBootApplication
+@Import(LocalRedisConfig.class)
 @ComponentScan(basePackages = {"com.pillartechnology.gdcr.universe"})
 public class UniverseApplication {
 
