@@ -1,6 +1,7 @@
 package com.pillartechnology.gdcr.universe;
 
 import com.pillartechnology.gdcr.universe.configuration.LocalRedisConfig;
+import com.pillartechnology.gdcr.universe.configuration.SwaggerConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -11,7 +12,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import java.util.List;
 
 @SpringBootApplication
-@Import(LocalRedisConfig.class)
+@Import({LocalRedisConfig.class, SwaggerConfig.class})
 @ComponentScan(basePackages = {"com.pillartechnology.gdcr.universe"})
 public class UniverseApplication {
 
