@@ -30,6 +30,7 @@ http://{your_ip}:8080/universe/@currentUniverse/generation/0
 
 ## REST API
 
+[View here!](https://gdcr-universe.herokuapp.com/swagger-ui.html)
 ### Creating A Universe
 
 POST http://{your_ip}:8080/universe/
