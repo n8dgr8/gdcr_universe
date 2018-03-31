@@ -1,0 +1,89 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${'GDCR Generation ' + generation_id}">GDCR Universe</title>
+    <style>
+        @import 'https://fonts.googleapis.com/css?family=Roboto:300,400,500';
+        body {
+            margin: 0 auto;
+            max-width: 70em;
+            font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+            color: #555;
+            color: #566b78;
+        }
+
+        h1,
+        h2 {
+            margin-top: 1em;
+            padding-top: 1em;
+        }
+        strong {
+            color: #333;
+        }
+
+        a {
+            color: #e81c4f;
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+        th{
+            width: 1vw;
+        }
+
+        td{
+            text-align: center;
+            width: 2vw;
+            height: 2vw;
+        }
+
+        table, th, td {
+            border: 1px solid #333;
+        }
+
+        .ALIVE {
+            background-color: #566b78;
+        }
+
+        .DEAD {
+            background-color: white;
+        }
+
+        .UNKNOWN {
+            background-color: darkorange;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<br/>
+<br/>
+
+<div style="float: left;"><a href="prev" th:href="${prev_url}">PREV</a></div>
+<div style="float: right;"><a href="next" th:href="${next_url}">NEXT</a></div>
+
+<br/>
+
+<center>
+<table>
+    <tr>
+        <th></th>
+        <th th:each="col_id : ${columns}" th:text="${col_id}">col id</th>
+    </tr>
+    <tr th:each="row_id : ${rows}">
+        <th th:text="${row_id}">row id</th>
+        <td th:each="col_id : ${columns}"
+            th:id="${row_id} + ${col_id}"
+            th:class="${cells[__${row_id} + ${col_id}__]}">
+        </td>
+    </tr>
+</table>
+
+</center>
+
+</body>
+</html>
