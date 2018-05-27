@@ -15,6 +15,11 @@ public class LocalRedisConfig {
     @Bean
     public RedisConnectionFactory jedisConnectionFactory() throws URISyntaxException {
         String redisUrl = System.getenv("REDIS_URL");
+
+        if(redisUrl == null) {
+            redisUrl = "redis://localhost:6379";
+        }
+
         URI redisUri = new URI(redisUrl);
 
         JedisPoolConfig poolConfig = new JedisPoolConfig();
@@ -29,7 +34,10 @@ public class LocalRedisConfig {
         jedisConnectionFactory.setHostName(redisUri.getHost());
         jedisConnectionFactory.setPort(redisUri.getPort());
         jedisConnectionFactory.setTimeout(Protocol.DEFAULT_TIMEOUT);
-        jedisConnectionFactory.setPassword(redisUri.getUserInfo().split(":", 2)[1]);
+
+        if(redisUri.getUserInfo() != null) {
+            jedisConnectionFactory.setPassword(redisUri.getUserInfo().split(":", 2)[1]);
+        }
 
         return jedisConnectionFactory;
     }
