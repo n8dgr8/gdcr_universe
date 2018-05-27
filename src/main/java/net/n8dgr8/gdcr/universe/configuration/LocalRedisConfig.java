@@ -16,7 +16,7 @@ public class LocalRedisConfig {
     public RedisConnectionFactory jedisConnectionFactory() throws URISyntaxException {
         String redisUrl = System.getenv("REDIS_URL");
 
-        if(redisUrl == null) {
+        if (redisUrl == null) {
             redisUrl = "redis://localhost:6379";
         }
 
@@ -35,7 +35,7 @@ public class LocalRedisConfig {
         jedisConnectionFactory.setPort(redisUri.getPort());
         jedisConnectionFactory.setTimeout(Protocol.DEFAULT_TIMEOUT);
 
-        if(redisUri.getUserInfo() != null) {
+        if (redisUri.getUserInfo() != null) {
             jedisConnectionFactory.setPassword(redisUri.getUserInfo().split(":", 2)[1]);
         }
 
