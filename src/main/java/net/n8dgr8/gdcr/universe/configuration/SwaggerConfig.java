@@ -16,7 +16,7 @@ public class SwaggerConfig {
     public Docket universeApi() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.pillartechnology.gdcr.universe"))
+                .apis(RequestHandlerSelectors.basePackage("net.n8dgr8.gdcr.universe"))
                 .paths(regex("/universe.*"))
                 .build();
     }

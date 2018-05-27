@@ -13,7 +13,7 @@ import java.util.List;
 
 @SpringBootApplication
 @Import({LocalRedisConfig.class, SwaggerConfig.class})
-@ComponentScan(basePackages = {"com.pillartechnology.gdcr.universe"})
+@ComponentScan(basePackages = {"net.n8dgr8.gdcr.universe"})
 public class UniverseApplication {
 
     @Autowired
